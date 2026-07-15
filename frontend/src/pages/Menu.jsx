@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import foods from "../data/foods";
+import foods from "../data/Foods";
 import FoodCard from "../components/FoodCard";
 import SearchBar from "../components/SearchBar";
 
@@ -8,15 +8,15 @@ import SearchBar from "../components/SearchBar";
 function Menu() {
 
 
-  const [search,setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
 
-  const filteredFoods = foods.filter((food)=>
+  const filteredFoods = foods.filter((food) =>
 
 
     food.name
-    .toLowerCase()
-    .includes(search.toLowerCase())
+      .toLowerCase()
+      .includes(search.toLowerCase())
 
 
   );
@@ -42,7 +42,7 @@ function Menu() {
 
 
         {
-          filteredFoods.map((food)=>(
+          filteredFoods.map((food) => (
 
             <FoodCard
               key={food.id}
