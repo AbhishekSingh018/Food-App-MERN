@@ -2,8 +2,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 
-import foods from "../data/foods";
-
+import foods from "../data/Foods";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 
