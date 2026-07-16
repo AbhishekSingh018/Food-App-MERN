@@ -24,7 +24,7 @@ function Login() {
         e.preventDefault();
         try {
             const response = await axios.post(
-                "http://localhost:5000/api/auth/login",
+                "https://food-app-mern-xk7x.onrender.com ",
                 {
                     email: formData.email,
                     password: formData.password
