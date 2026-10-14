@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
@@ -7,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 function Signup() {
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -23,11 +23,12 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
 
+        if (formData.password !== formData.confirmPassword) {
             alert("Password does not match");
             return;
         }
+
         try {
             const response = await axios.post(
                 "https://food-app-mern-xk7x.onrender.com/api/auth/signup",
@@ -37,40 +38,51 @@ function Signup() {
                     password: formData.password
                 }
             );
+
+            console.log("Signup response:", response.data);
+
             alert(response.data.message);
+
             login(response.data.user);
+
             navigate("/");
-        }
-        catch (error) {
+
+        } catch (error) {
+            console.error("Signup error:", error);
+            console.error(
+                "Server response:",
+                error.response?.data
+            );
+
             alert(
                 error.response?.data?.message ||
                 "Signup failed"
             );
         }
     };
+
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <div className="card shadow p-4">
+
                         <h2 className="text-center mb-4">
                             Signup
                         </h2>
+
                         <form onSubmit={handleSubmit}>
+
                             <input
                                 type="text"
                                 name="name"
-
                                 placeholder="Enter Name"
-
                                 className="form-control mb-3"
-
                                 value={formData.name}
-
                                 onChange={handleChange}
-
                                 required
                             />
+
                             <input
                                 type="email"
                                 name="email"
@@ -80,6 +92,7 @@ function Signup() {
                                 onChange={handleChange}
                                 required
                             />
+
                             <input
                                 type="password"
                                 name="password"
@@ -89,6 +102,7 @@ function Signup() {
                                 onChange={handleChange}
                                 required
                             />
+
                             <input
                                 type="password"
                                 name="confirmPassword"
@@ -98,16 +112,21 @@ function Signup() {
                                 onChange={handleChange}
                                 required
                             />
+
                             <button
+                                type="submit"
                                 className="btn btn-success w-100"
                             >
                                 Signup
                             </button>
+
                         </form>
+
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+
 export default Signup;
