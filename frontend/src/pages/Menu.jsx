@@ -4,7 +4,6 @@ import foods from "../data/Foods";
 import FoodCard from "../components/FoodCard";
 import SearchBar from "../components/SearchBar";
 
-
 function Menu() {
 
 

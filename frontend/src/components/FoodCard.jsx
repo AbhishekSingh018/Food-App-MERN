@@ -1,104 +1,93 @@
-
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 
-
 function FoodCard({ food }) {
-
   const { addToCart } = useContext(CartContext);
-
   const { user } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
+  const [showMessage, setShowMessage] = useState(false);
+
+  const handleAddToCart = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    addToCart(food);
+
+    setShowMessage(true);
+
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 2500);
+  };
 
   return (
+    <div className="col-lg-4 col-md-6 mb-4">
+      <div className="food-card h-100">
 
-    <div className="col-md-4 mb-4">
+        {/* Food Image */}
+        <div className="food-image-wrapper">
+          <img
+            src={food.image}
+            className="food-image"
+            alt={food.name}
+          />
 
-      <div className="card shadow h-100">
+          <span className="food-price">
+            ₹{food.price}
+          </span>
+        </div>
 
+        {/* Card Content */}
+        <div className="food-card-body">
 
-        <img
-          src={food.image}
-          className="card-img-top"
-          alt={food.name}
-        />
-
-
-        <div className="card-body">
-
-
-          <h5 className="card-title">
+          <h5 className="food-title">
             {food.name}
           </h5>
 
-
-          <p className="card-text">
+          <p className="food-description">
             {food.description}
           </p>
 
+          <div className="food-actions">
 
-          <h5>
-            ₹ {food.price}
-          </h5>
+            <button
+              className="add-cart-btn"
+              onClick={handleAddToCart}
+            >
+              🛒 Add to Cart
+            </button>
 
+            <Link
+              to={`/food/${food.id}`}
+              className="details-btn"
+            >
+              View Details →
+            </Link>
 
-          <button
-
-            className="btn btn-success w-100"
-
-            onClick={() => {
-
-              if (user) {
-
-                addToCart(food);
-
-              }
-              else {
-
-                navigate("/login");
-
-              }
-
-            }}
-
-          >
-
-            Add To Cart
-
-          </button>
-
-
-
-          <Link
-
-            to={`/food/${food.id}`}
-
-            className="btn btn-outline-primary mt-2 w-100"
-
-          >
-
-            View Details
-
-          </Link>
-
+          </div>
 
         </div>
 
+        {/* Success Notification */}
+        {showMessage && (
+          <div className="cart-toast">
+            <span>✓</span>
+            <div>
+              <strong>{food.name}</strong>
+              <small>Added to cart successfully!</small>
+            </div>
+          </div>
+        )}
 
       </div>
-
-
     </div>
-
   );
-
 }
 
-
 export default FoodCard;
-
